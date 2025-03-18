@@ -46,12 +46,11 @@ const handleSignAccessToken = async function ({
             scopes
         }
         const accessToken = jwt.sign(payload, privateKey, {
-            algorithm: "RS256",
-            expiresIn: "5min"
+            algorithm: "RS256"
         })
         return accessToken;
     } catch (error) {
-        console.error(`Failed to sign accessToken.`)
+        console.error(`Failed to sign accessToken: ${error.message}`)
     }
 }
 
@@ -70,12 +69,11 @@ const handleSignRefreshToken = async function ({
             iat: Date.now()
         }
         const refreshToken = jwt.sign(payload, privateKey, {
-            algorithm: "RS256",
-            expiresIn: "5d"
+            algorithm: "RS256"
         })
         return refreshToken;
     } catch (error) {
-        console.error(`Failed to sign refreshToken.`);
+        console.error(`Failed to sign refreshToken: ${error.message}`);
     }
 }
 

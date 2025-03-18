@@ -47,7 +47,7 @@ const clientAuthMiddleware = async function (req, res, next) {
                 clientId: clientId.trim(),
                 clientSecret: clientSecret.trim()
             }
-        })
+        });
     
         if(!user) return res
         .status(401)

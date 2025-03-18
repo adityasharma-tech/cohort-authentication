@@ -23,7 +23,6 @@ const handleGetAccessToken = async function (req, res) {
     sub,
     aud: [user.clientId],
   });
-
   res.status(200).json({
     accessToken,
     refreshToken,
