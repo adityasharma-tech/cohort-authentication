@@ -1,12 +1,15 @@
 import fs from "fs/promises"
 import jwt from "jsonwebtoken";
+import jose from "node-jose";
 
 const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 async function getPrivateKey(){
     try {
-        const filedata = await fs.readFile('./keys/auth_key.pem', "utf-8");
-        return filedata;
+        const filedata = await fs.readFile('./keys/keys.json', "utf-8");
+        const keyStore = await jose.JWK.asKeyStore(filedata.toString())
+        const [key] = keyStore.all({ use: 'sig' })
+        return key; 
     } catch (error) {
         console.error(`Failed to read private key file: ${error.message}`);
     }
@@ -14,8 +17,9 @@ async function getPrivateKey(){
 
 async function getPublicKey(){
     try {
-        const filedata = await fs.readFile('./keys/auth_key.pub', "utf-8");
-        return filedata;
+        const filedata = await fs.readFile('./keys/keys.json', "utf-8");
+        const result = (await jose.JWK.asKeyStore(filedata)).toJSON();
+        return result
     } catch (error) {
         console.error(`Failed to read public key file: ${error.message}`);
     }
@@ -38,7 +42,7 @@ const handleSignAccessToken = async function ({
             iss: process.env.DOMAIN,
             sub, // TODO: get the userid from the login database
             aud, // client_id
-            exp: Date.now() + (60 * 5 * 1000),
+            exzp: Date.now() + (60 * 5 * 1000),
             iat: Date.now(),
             email,
             email_verified,
@@ -47,9 +51,10 @@ const handleSignAccessToken = async function ({
             picture, // $optional,
             scopes
         }
-        const accessToken = jwt.sign(payload, privateKey, {
-            algorithm: "RS256"
-        })
+        const opt = { compat: true, fields: { typ: 'jwt' } }
+        const accessToken = await jose.JWS.createSign(opt, privateKey)
+            .update(JSON.stringify(payload))
+            .final()
         return accessToken;
     } catch (error) {
         console.error(`Failed to sign accessToken: ${error.message}`)
@@ -65,14 +70,15 @@ const handleSignRefreshToken = async function ({
     try {
         const payload = {
             iss: process.env.DOMAIN,
-            sub, // TODO: get the userid from the login database
-            aud, // client_id ?????????????????????????????
+            sub,
+            aud,
             exp: Date.now() + (60 * 60 * 24 * 5 * 1000),
             iat: Date.now()
         }
-        const refreshToken = jwt.sign(payload, privateKey, {
-            algorithm: "RS256"
-        })
+        const opt = { compat: true, jwk: privateKey, fields: { typ: 'jwt' } }
+        const refreshToken = await jose.JWS.createSign(opt, privateKey)
+            .update(JSON.stringify(payload))
+            .final()
         return refreshToken;
     } catch (error) {
         console.error(`Failed to sign refreshToken: ${error.message}`);

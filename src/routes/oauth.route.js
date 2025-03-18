@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { handleGetAccessToken, handleRefreshAccessToken } from "../controllers/oauth.controller.js";
+import { handleGetAccessToken, handleRefreshAccessToken, handleRevokeTokenScope } from "../controllers/oauth.controller.js";
 import { clientAuthMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router()
@@ -13,6 +13,6 @@ router.route('/refreshAccessToken')
     .post(handleRefreshAccessToken)
 
 router.route('/revoke') // remove the refresh token from the database
-    .post()
+    .post(handleRevokeTokenScope)
 
 export default router;
