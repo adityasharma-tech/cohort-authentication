@@ -3,25 +3,25 @@ import { handleSignAccessToken, handleSignRefreshToken } from "../lib/utils.js";
 const handleGetAccessToken = async function (req, res) {
   const user = req.user;
   const { response_type, sub, scope } = req.query;
-  if (![sub, scope].some((value) => (value ? value.trim() == "" : false)))
+  if (![sub, scope].some((value) => (value ? value.trim() != "" : false)))
     return res
       .status(400)
-      .json(new Error("validation error: please provide the sub id."));
+      .json({message: "validation error: please provide the sub id and scope"});
 
-  if (response_type.trim() != "token")
+  if (!response_type || response_type.trim() != "token")
     return res
       .status(400)
-      .json(new Error('We only support "token" type response.'));
+      .json({message: 'We only support "token" type response.'});
 
   const accessToken = await handleSignAccessToken({
     sub,
-    aud: [user.id],
+    aud: [user.clientId],
     scopes: scope.trim().toLowerCase().split(",")
   });
 
   const refreshToken = await handleSignRefreshToken({
     sub,
-    aud: [user.id],
+    aud: [user.clientId],
   });
 
   res.status(200).json({

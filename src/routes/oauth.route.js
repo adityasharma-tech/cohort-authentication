@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { handleGetAccessToken } from "../controllers/oauth.controller.js";
+import { clientAuthMiddleware } from "../middleware/auth.middleware.js";
 
 const router = Router()
 
 router.route('/token') // get the authorization accessToken using oauth
-    .post(handleGetAccessToken)
+    .post(clientAuthMiddleware, handleGetAccessToken)
 
 router.route('/device/code') // TODO: pata nahi kya hai
 

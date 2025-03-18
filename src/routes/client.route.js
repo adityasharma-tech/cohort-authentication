@@ -1,4 +1,4 @@
-import { Router } from "router"
+import { Router } from "express"
 import { getUserDetails, onboardHandling } from "../controllers/client.controller.js";
 
 

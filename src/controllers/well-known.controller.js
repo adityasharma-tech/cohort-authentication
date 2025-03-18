@@ -12,7 +12,7 @@ const handleGetPublicKeys = async (_, res) => {
             {
                 kty: "RSA",
                 n: publicKey,
-                alg: "RSA256",
+                alg: "RS256",
                 // use: "",
                 // e: "",
                 // kid: ""

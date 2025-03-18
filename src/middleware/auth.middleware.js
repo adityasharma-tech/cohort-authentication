@@ -1,5 +1,7 @@
 // import jwt from "jsonwebtoken"
 
+import { PrismaClient } from "@prisma/client";
+
 // const authMiddleware = async (req, res, next) => {
 //     const cookies = req.cookies;
 
@@ -26,3 +28,46 @@
 // export {
 //     authMiddleware
 // }
+
+const clientAuthMiddleware = async function (req, res, next) {
+    const clientId = req.headers['x-client-id'];
+    const clientSecret = req.headers['x-client-secret'];
+
+    if(![clientId, clientSecret].some((value) => (value ? value.trim() != "" : false)))
+        return res
+        .status(401)
+        .json({message: "Unauthorized" });
+
+    try {
+        
+        const prisma = new PrismaClient();
+    
+        const user = await prisma.user.findFirst({
+            where: {
+                clientId: clientId.trim(),
+                clientSecret: clientSecret.trim()
+            }
+        })
+    
+        if(!user) return res
+        .status(401)
+        .json({message: "Unauthorized: Invalid credentials." });
+
+        req.user = {
+            ...user,
+            passwordHash: undefined,
+            createdAt: undefined,
+            updatedAt: undefined
+        }
+    } catch (error) {
+        return res
+        .status(500)
+        .json({message: "Internal server error" });
+    }
+
+    next()
+}
+
+export {
+    clientAuthMiddleware
+}

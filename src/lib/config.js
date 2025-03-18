@@ -10,7 +10,7 @@ const openIdJsonConfig = {
   "registration_endpoint": `${process.env.DOMAIN}/oidc/register`,
   "revocation_endpoint": `${process.env.DOMAIN}/oauth/revoke`,
   "scopes_supported": [
-    "openid", // something somethign
+    // "openid", // something somethign
     "profile",
     "name",
     "email",
