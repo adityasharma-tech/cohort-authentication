@@ -1,0 +1,1 @@
+POSTMAN docs for cohort-authentication: https://documenter.getpostman.com/view/29494986/2sAYkDLzZU
