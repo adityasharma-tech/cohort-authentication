@@ -53,7 +53,7 @@ const clientAuthMiddleware = async function (req, res, next) {
         .status(401)
         .json({message: "Unauthorized: Invalid credentials." });
 
-        req.user = {
+        req.client = {
             ...user,
             passwordHash: undefined,
             createdAt: undefined,

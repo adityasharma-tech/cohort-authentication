@@ -19,6 +19,7 @@ model User {
   clientId String
   email String
   passwordHash String
+  refreshToken String?
   updatedAt DateTime @default(now())
   createdAt DateTime @default(now())
 }

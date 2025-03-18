@@ -1,5 +1,5 @@
 import fs from "fs/promises"
-import jwt from "jsonwebtoken";
+import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 
 async function getPrivateKey(){
     try {
@@ -77,10 +77,30 @@ const handleSignRefreshToken = async function ({
     }
 }
 
+const isRefreshTokenValid = async function (refreshToken) {
+    const publicKey = await getPublicKey();
+    try {
+        const nRefToken = jwt.verify(refreshToken, publicKey, {
+            algorithms: "RS256"
+        })
+        if(nRefToken.exp < Date.now()) return null
+            return nRefToken.sub;
+    } catch (error) {
+        console.error(`isRefreshTOkenExpired.err: ${error.message}`)
+        if(error instanceof TokenExpiredError) return null
+        else if(error instanceof JsonWebTokenError) return null
+        else {
+            console.error(`Internal server error: ${error.message}`);
+            return null;
+        }
+    }
+}
+
 
 export {
     getPrivateKey,
     getPublicKey,
     handleSignAccessToken,
-    handleSignRefreshToken
+    handleSignRefreshToken,
+    isRefreshTokenValid
 }

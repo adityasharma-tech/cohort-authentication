@@ -12,7 +12,7 @@ const authorize = (req, res) => {
 }
 
 const getUserInfo = (req, res) => {
-
+    
 }
 
 export {
