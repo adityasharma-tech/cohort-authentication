@@ -12,6 +12,8 @@ const port = process.env.PORT || 5178;
 app.use(cors({
     methods: ["POST", "GET", "OPTIONS"]
 }))
+
+app.use(express.json())
 app.use(cookieParser())
 app.use(helmet())
 app.use(morgan("dev"))

@@ -10,20 +10,14 @@ const openIdJsonConfig = {
   "registration_endpoint": `${process.env.DOMAIN}/oidc/register`,
   "revocation_endpoint": `${process.env.DOMAIN}/oauth/revoke`,
   "scopes_supported": [
-    "openid",
+    "openid", // something somethign
     "profile",
     "offline_access",
     "name",
-    "given_name",
-    "family_name",
-    "nickname",
     "email",
     "email_verified",
-    "picture",
     "created_at",
-    "identities",
-    "phone",
-    "address"
+    "phone"
   ],
   "response_types_supported": [
     "code",
@@ -57,22 +51,16 @@ const openIdJsonConfig = {
     "private_key_jwt"
   ],
   "claims_supported": [
-    "aud",
-    "auth_time",
-    "created_at",
+    "iss", // $process.env.DOMAIN
+    "sub", // the user id of the platform database
+    "aud", // [] // array or may be a single case sensitive string of`client_id`
+    "exp", // Date.now() + 60 * 5 * 1000
+    "iat", // time at which the jwt token is issued
     "email",
     "email_verified",
-    "exp",
-    "family_name",
-    "given_name",
-    "iat",
-    "identities",
-    "iss",
-    "name",
-    "nickname",
+    "name", // full name of the user
     "phone_number",
-    "picture",
-    "sub"
+    "picture", // url of the picture
   ],
   "request_uri_parameter_supported": false,
   "request_parameter_supported": false,
