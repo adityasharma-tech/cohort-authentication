@@ -2,11 +2,11 @@
 const openIdJsonConfig = {
   "issuer": `${process.env.DOMAIN}/`,
   "authorization_endpoint": `${process.env.DOMAIN}/authorize`,
-  "token_endpoint": `${process.env.DOMAIN}/oauth/token`,
-  "device_authorization_endpoint": `${process.env.DOMAIN}/oauth/device/code`,
+  "token_endpoint": `${process.env.DOMAIN}/oauth/token`, // almost done
+  "device_authorization_endpoint": `${process.env.DOMAIN}/oauth/device/code`, // not required yet
   "userinfo_endpoint": `${process.env.DOMAIN}/userinfo`,
-  "mfa_challenge_endpoint": `${process.env.DOMAIN}/mfa/challenge`,
-  "jwks_uri": `${process.env.DOMAIN}/.well-known/jwks.json`,
+  "mfa_challenge_endpoint": `${process.env.DOMAIN}/mfa/challenge`, // not required
+  "jwks_uri": `${process.env.DOMAIN}/.well-known/jwks.json`, // done
   "registration_endpoint": `${process.env.DOMAIN}/oidc/register`,
   "revocation_endpoint": `${process.env.DOMAIN}/oauth/revoke`,
   "scopes_supported": [
