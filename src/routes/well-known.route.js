@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { openIdConfiguration } from "../controllers/well-known.controller.js";
+import { handleGetPublicKeys, openIdConfiguration } from "../controllers/well-known.controller.js";
 
 const router = Router()
 

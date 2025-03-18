@@ -12,7 +12,6 @@ const openIdJsonConfig = {
   "scopes_supported": [
     "openid", // something somethign
     "profile",
-    "offline_access",
     "name",
     "email",
     "email_verified",
@@ -20,13 +19,13 @@ const openIdJsonConfig = {
     "phone"
   ],
   "response_types_supported": [
-    "code",
+    // "code",
     "token",
-    "id_token",
-    "code token",
-    "code id_token",
-    "token id_token",
-    "code token id_token"
+    // "id_token",
+    // "code token",
+    // "code id_token",
+    // "token id_token",
+    // "code token id_token"
   ],
   "code_challenge_methods_supported": [
     "S256",
@@ -41,9 +40,9 @@ const openIdJsonConfig = {
     "public"
   ],
   "id_token_signing_alg_values_supported": [
-    "HS256",
+    // "HS256",
     "RS256",
-    "PS256"
+    // "PS256"
   ],
   "token_endpoint_auth_methods_supported": [
     "client_secret_basic",
@@ -66,8 +65,8 @@ const openIdJsonConfig = {
   "request_parameter_supported": false,
   "token_endpoint_auth_signing_alg_values_supported": [
     "RS256",
-    "RS384",
-    "PS256"
+    // "RS384",
+    // "PS256"
   ]
 }
 
