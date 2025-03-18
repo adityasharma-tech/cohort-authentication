@@ -15,10 +15,10 @@ datasource db {
 
 model User {
   id String @id @default(uuid())
-  client_secret String
-  client_id String
+  clientSecret String
+  clientId String
   email String
   passwordHash String
-  updated_at DateTime @default(now())
-  created_at DateTime @default(now())
+  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
 }

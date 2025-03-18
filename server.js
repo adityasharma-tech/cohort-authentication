@@ -25,15 +25,16 @@ import wellKnownRouter from "./src/routes/well-known.route.js"
 import defaultRouter from "./src/routes/default.route.js"
 import oauthRouter from "./src/routes/oauth.route.js"
 import oidcRouter from "./src/routes/oidc.route.js"
+import clientRouter from "./src/routes/client.route.js"
 
 /**
  * routers
  */
 app.use(defaultRouter)
-app.use("/.well-known", wellKnownRouter)
 app.use('/oidc', oidcRouter)
 app.use('/oauth', oauthRouter)
-
+app.use('/client', clientRouter)
+app.use("/.well-known", wellKnownRouter)
 
 /**
  * server listening
