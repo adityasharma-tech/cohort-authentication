@@ -51,12 +51,14 @@ const handleSignAccessToken = async function ({
             picture, // $optional,
             scopes
         }
-        const opt = { compat: true, fields: { typ: 'jwt' } }
+        const opt = { compat: true, jwk: privateKey, fields: { typ: 'jwt' } }
         const accessToken = await jose.JWS.createSign(opt, privateKey)
             .update(JSON.stringify(payload))
             .final()
-        return accessToken;
+            console.log(JSON.stringify(accessToken))
+        return `${accessToken.signatures[0].protected}.${accessToken.payload}.${accessToken.signatures[0].signature}`;
     } catch (error) {
+        console.error(error)
         console.error(`Failed to sign accessToken: ${error.message}`)
     }
 }
@@ -75,12 +77,13 @@ const handleSignRefreshToken = async function ({
             exp: Date.now() + (60 * 60 * 24 * 5 * 1000),
             iat: Date.now()
         }
-        const opt = { compat: true, jwk: privateKey, fields: { typ: 'jwt' } }
+        const opt = { compat: true, jwk: privateKey, fields: { typ: 'JWT' } }
         const refreshToken = await jose.JWS.createSign(opt, privateKey)
             .update(JSON.stringify(payload))
             .final()
-        return refreshToken;
+        return `${refreshToken.signatures[0].protected}.${refreshToken.payload}.${refreshToken.signatures[0].signature}`;
     } catch (error) {
+        console.error(error)
         console.error(`Failed to sign refreshToken: ${error.message}`);
     }
 }

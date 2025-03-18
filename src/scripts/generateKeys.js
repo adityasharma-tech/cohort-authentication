@@ -2,11 +2,22 @@ import fs from "fs"
 
 import jose from "node-jose"
 
-const keyStore = jose.JWK.createKeyStore()
-keyStore.generate('RSA', 2048, {alg: 'RS256', use: 'sig' })
-.then(result => {
+// const keyStore = jose.JWK.createKeyStore()
+// keyStore.generate('RSA', 2048, {alg: 'RS256', use: 'sig' })
+// .then(result => {
+//   fs.writeFileSync(
+//     'keys/keys.json', 
+//     JSON.stringify(keyStore.toJSON(true), null, '  ')
+//   )
+// })
+
+const keyStore = jose.JWK.createKeyStore();
+keyStore.generate("RSA", 2048, {
+  alg: 'RS256',
+  use: 'sig'
+}).then(result=>{
   fs.writeFileSync(
-    'keys/keys.json', 
+    'keys/keys.json',
     JSON.stringify(keyStore.toJSON(true), null, '  ')
   )
 })
