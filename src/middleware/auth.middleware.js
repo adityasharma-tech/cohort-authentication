@@ -42,7 +42,7 @@ const clientAuthMiddleware = async function (req, res, next) {
         
         const prisma = new PrismaClient();
     
-        const user = await prisma.user.findFirst({
+        const user = await prisma.client.findFirst({
             where: {
                 clientId: clientId.trim(),
                 clientSecret: clientSecret.trim()

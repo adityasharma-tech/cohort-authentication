@@ -23,7 +23,7 @@ const onboardHandling = async function (req, res) {
     const hashedPassword = await bcrypt.hash(password.trim(), 10);
     const prisma = new PrismaClient();
 
-    const user = await prisma.user.findFirst({
+    const user = await prisma.client.findFirst({
       where: {
         email: email.trim().toLowerCase(),
       },
@@ -36,7 +36,7 @@ const onboardHandling = async function (req, res) {
         .status(400)
         .json({message: "user already exists with same email id."});
 
-    const newUser = await prisma.user.create({
+    const newUser = await prisma.client.create({
       data: {
         email: email.trim().toLowerCase(),
         passwordHash: hashedPassword,
@@ -68,7 +68,7 @@ const getUserDetails = async function (req, res) {
       .json({message: "email & password are required fields."});
   try {
     const prisma = new PrismaClient();
-    const user = await prisma.user.findFirst({
+    const user = await prisma.client.findFirst({
       where: {
         email: email.trim().toLowerCase(),
       },

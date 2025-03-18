@@ -1,5 +1,7 @@
 import fs from "fs/promises"
-import jwt, { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+
+const { JsonWebTokenError, TokenExpiredError } = jwt;
 
 async function getPrivateKey(){
     try {
