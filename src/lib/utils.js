@@ -18,7 +18,7 @@ async function getPrivateKey(){
 async function getPublicKey(){
     try {
         const filedata = await fs.readFile('./keys/keys.json', "utf-8");
-        const result = (await jose.JWK.asKeyStore(filedata)).toJSON();
+        const result = (await jose.JWK.asKeyStore(filedata))
         return result
     } catch (error) {
         console.error(`Failed to read public key file: ${error.message}`);
@@ -91,11 +91,10 @@ const handleSignRefreshToken = async function ({
 const isRefreshTokenValid = async function (refreshToken) {
     const publicKey = await getPublicKey();
     try {
-        const nRefToken = jwt.verify(refreshToken, publicKey, {
-            algorithms: "RS256"
-        })
-        if(nRefToken.exp < Date.now()) return null
-            return nRefToken.sub;
+        const result = await jose.JWS.createVerify(publicKey).verify(refreshToken)
+        const payload = JSON.parse(result.payload.toString());
+        if(payload.exp * 1000 < Date.now()) return null;
+        return payload.sub;
     } catch (error) {
         console.error(`isRefreshTOkenExpired.err: ${error.message}`)
         if(error instanceof TokenExpiredError) return null
