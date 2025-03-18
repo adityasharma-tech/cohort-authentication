@@ -27,21 +27,23 @@ const handleSignAccessToken = async function ({
     email_verified=false,
     name,
     phone_number,
-    picture
+    picture,
+    scopes
 }) {
     const privateKey = await getPrivateKey();
     try {
         const payload = {
             iss: process.env.DOMAIN,
             sub, // TODO: get the userid from the login database
-            aud, // client_id ?????????????????????????????
+            aud, // client_id
             exp: Date.now() + (60 * 5 * 1000),
             iat: Date.now(),
             email,
             email_verified,
             name,
-            phone_number, // $optional
-            picture // $optional
+            phone_number, // $optional,
+            picture, // $optional,
+            scopes
         }
         const accessToken = jwt.sign(payload, privateKey, {
             algorithm: "RS256",
